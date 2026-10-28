@@ -105,5 +105,63 @@ class ReportSeeder extends Seeder
             'status' => ReportStatus::Ditutup,
             'review_note'  => 'Laporan telah ditinjau. Gejala ringan dan sudah membaik. Tidak diperlukan tindak lanjut lebih.',
         ]);
+        // laporan tambahan, kebutuhan agar pagination terlihat dan butuh min 12 total
+        $extraDistributions = [
+            [
+                $smpNgawi,
+                '2026-10-23',
+                'Nasi, ayam panggang madu, sup sayur, semangka'
+            ],
+            [
+                $smpNgawi,
+                '2026-10-24',
+                'Nasi goreng spesial, telur mata sapi, kerupuk, susu'
+            ],
+            [
+                $sdNgawi,
+                '2026-10-23',
+                'Nasi, pepes ikan mas, tumis buncis, jeruk'
+            ],
+            [
+                $sdNgawi,
+                '2026-10-24',
+                'Nasi, soto ayam, tempe goreng, pisang'
+            ],
+            [
+                $smaRongawi,
+                '2026-10-23',
+                'Nasi, bakso kuah, sayur lodeh, melon'
+            ],
+            [
+                $smaRongawi,
+                '2026-10-24',
+                'Nasi, ikan goreng sambal, urap sayur, susu'
+            ],
+        ];
+        $statuses = [
+            ReportStatus::Dikirim,
+            ReportStatus::DalamPeninjauan,
+            ReportStatus::Ditutup,
+            ReportStatus::Dikirim,
+            ReportStatus::DalamPeninjauan,
+            ReportStatus::Ditutup,
+        ];
+        foreach ($extraDistributions as $i => [$school, $date, $menu]) {
+            $dist = Distribution::create([
+                'school_id' => $school->id,
+                'distribution_date' => $date,
+                'menu_description' => $menu,
+            ]);
+            $pelapor = ($i % 2 === 0) ? $pelapor1 : $pelapor2;
+            Report::create([
+                'user_id' => $pelapor->id,
+                'school_id' => $school->id,
+                'distribution_id' => $dist->id,
+                'incident_at' => $date . ' 13:00:00',
+                'description' => 'Beberapa siswa melaporkan gangguan ringan setelah makan siang dari program MBG pada distribusi ini. Orang tua meminta agar laporan ini ditindaklanjuti.',
+                'affected_count' => ($i + 1) * 2,
+                'status' => $statuses[$i],
+            ]);
+        }
     }
 }
