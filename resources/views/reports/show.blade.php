@@ -100,6 +100,76 @@
                 </div>
             </div>
         @endif
+        
+        {{-- panel aksi untuk penerrusan khusus role koordinator --}}
+        @if(auth()->user()->isKoordinator())
+            <div class="card bg-base-100 shadow border border-secondary/20 mb-6">
+                <div class="card-body">
+                    <h2 class="card-title text-base text-secondary">Panel Koordinator Komunitas</h2>
+
+                    {{-- aksi mencatat penerusan hanya jika ditandai_untuk_diteruskan --}}
+                    @if($report->status === \App\Enums\ReportStatus::DitandaiUntukDiteruskan)
+                        <p class="text-sm text-base-content/70 mb-3">
+                            Laporan ini ditandai perlu diteruskan. Catat informasi pihak yang menerima informasi ini.
+                        </p>
+                        <form method="POST" action="{{ route('reports.forwardings.store', $report) }}">
+                            @csrf
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <label class="form-control">
+                                    <div class="label"><span class="label-text text-xs">Jenis Pihak Penerima <span class="text-error">*</span></span></div>
+                                    <select name="recipient_type"
+                                            class="select select-bordered select-sm @error('recipient_type') select-error @enderror">
+                                        <option value="">Pilih jenis</option>
+                                        <option value="sekolah"             {{ old('recipient_type') === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
+                                        <option value="sppg"                {{ old('recipient_type') === 'sppg' ? 'selected' : '' }}>SPPG</option>
+                                        <option value="fasilitas_kesehatan" {{ old('recipient_type') === 'fasilitas_kesehatan' ? 'selected' : '' }}>Fasilitas Kesehatan</option>
+                                        <option value="lainnya"             {{ old('recipient_type') === 'lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                    </select>
+                                    @error('recipient_type')<p class="text-error text-xs mt-1">{{ $message }}</p>@enderror
+                                </label>
+
+                                <label class="form-control">
+                                    <div class="label"><span class="label-text text-xs">Nama Pihak Penerima <span class="text-error">*</span></span></div>
+                                    <input type="text" name="recipient_name" value="{{ old('recipient_name') }}"
+                                        placeholder="Contoh: Puskesmas Ngawi"
+                                        class="input input-bordered input-sm @error('recipient_name') input-error @enderror">
+                                    @error('recipient_name')<p class="text-error text-xs mt-1">{{ $message }}</p>@enderror
+                                </label>
+                            </div>
+
+                            <label class="form-control mb-4">
+                                <div class="label"><span class="label-text text-xs">Catatan Penerusan</span></div>
+                                <textarea name="note" rows="2"
+                                        class="textarea textarea-bordered textarea-sm"
+                                        placeholder="Catatan tambahan terkait penerusan ini (opsional)">{{ old('note') }}</textarea>
+                            </label>
+
+                            <button type="submit" class="btn btn-sm btn-secondary">
+                                Catat Penerusan Informasi
+                            </button>
+                        </form>
+
+                    {{-- aksi tutup laporan hanya jika sudah_diteruskan --}}
+                    @elseif($report->status === \App\Enums\ReportStatus::SudahDiteruskan)
+                        <p class="text-sm text-base-content/70 mb-3">
+                            Informasi sudah diteruskan ke pihak terkait. Laporan dapat ditutup jika tidak ada tindak lanjut lebih lanjut.
+                        </p>
+                        <form method="POST" action="{{ route('reports.close', $report) }}"
+                            onsubmit="return confirm('Tutup laporan ini? Tindakan ini tidak dapat dibatalkan.')">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline">Tutup Laporan</button>
+                        </form>
+
+                    @else
+                        <p class="text-xs text-base-content/60">
+                            Tidak ada aksi yang tersedia untuk status laporan saat ini
+                            ({{ $report->status->label() }}).
+                        </p>
+                    @endif
+                </div>
+            </div>
+        @endif
 
         {{-- info laporan --}}
         <div class="card bg-base-100 shadow mb-4">
