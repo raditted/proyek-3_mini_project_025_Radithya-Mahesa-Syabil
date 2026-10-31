@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\EvidenceController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportReviewController;
 use App\Http\Controllers\SchoolController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
     Route::get('/reports/{report}/evidence', [EvidenceController::class, 'show'])->name('reports.evidence');
 
+    Route::middleware('role:pemantau,koordinator')->group(function () {
+        Route::get('/review/reports', [ReportReviewController::class, 'index'])->name('review.reports.index');
+    });
+
+    Route::middleware('role:pemantau')->group(function () {
+        Route::post('/review/reports/{report}/start', [ReportReviewController::class, 'startReview'])->name('review.reports.start');
+        Route::post('/review/reports/{report}/request-completion', [ReportReviewController::class, 'requestCompletion'])->name('review.reports.requestCompletion');
+        Route::post('/review/reports/{report}/mark-forward', [ReportReviewController::class, 'markForward'])->name('review.reports.markForward');
+        Route::post('/review/reports/{report}/close', [ReportReviewController::class, 'close'])->name('review.reports.close');
+    });
+
     Route::middleware('role:koordinator')->group(function () {
         Route::resource('schools', SchoolController::class)->except(['show']);
         Route::resource('distributions', DistributionController::class)->except(['show']);
@@ -44,6 +56,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/schools/{school}/distributions', [DistributionController::class, 'bySchool'])
         ->name('schools.distributions');
 
-    Route::get('/review/reports', fn() => 'Halaman review (Fase 8)')->name('review.reports.index');
     Route::get('/recap', fn() => 'Halaman rekap (Fase 13)')->name('recap.index');
 });
