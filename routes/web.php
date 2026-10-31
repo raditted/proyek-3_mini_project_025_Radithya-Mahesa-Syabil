@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\EvidenceController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportForwardingController;
 use App\Http\Controllers\ReportReviewController;
 use App\Http\Controllers\SchoolController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('role:koordinator')->group(function () {
+        Route::post('/reports/{report}/forwardings', [ReportForwardingController::class, 'store'])->name('reports.forwardings.store');
+        Route::post('/reports/{report}/close', [ReportForwardingController::class, 'close'])->name('reports.close');
+
         Route::resource('schools', SchoolController::class)->except(['show']);
         Route::resource('distributions', DistributionController::class)->except(['show']);
     });
