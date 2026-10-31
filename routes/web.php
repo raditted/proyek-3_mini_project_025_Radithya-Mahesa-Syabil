@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistributionController;
+use App\Http\Controllers\EvidenceController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SchoolController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +25,12 @@ Route::middleware('auth')->group(function () {
         );
     });
 
-    Route::get('/reports', fn() => 'Halaman laporan saya (nanti fase 5)')->name('reports.index');
-    Route::get('/reports/create', fn() => 'Form buat laporan (Fase 5)')->name('reports.create');
-    Route::get('/review/reports', fn() => 'Halaman review (Fase 8)')->name('review.reports.index');
-    Route::get('/recap', fn() => 'Halaman rekap (Fase 13)')->name('recap.index');
+    Route::middleware('role:pelapor')->group(function () {
+        Route::resource('reports', ReportController::class)->except(['destroy']);
+    });
+
+    Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
+    Route::get('/reports/{report}/evidence', [EvidenceController::class, 'show'])->name('reports.evidence');
 
     Route::middleware('role:koordinator')->group(function () {
         Route::resource('schools', SchoolController::class)->except(['show']);
@@ -35,4 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/schools/{school}/distributions', [DistributionController::class, 'bySchool'])
         ->name('schools.distributions');
+
+    Route::get('/review/reports', fn() => 'Halaman review (Fase 8)')->name('review.reports.index');
+    Route::get('/recap', fn() => 'Halaman rekap (Fase 13)')->name('recap.index');
 });
