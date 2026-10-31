@@ -24,15 +24,15 @@
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Tanggal Distribusi <span class="text-error">*</span></span></div>
                         <input type="date" name="distribution_date"
-                               value="{{ old('distribution_date', $distribution->distribution_date->format('Y-m-d')) }}"
-                               class="input input-bordered @error('distribution_date') input-error @enderror">
+                            value="{{ old('distribution_date', $distribution->distribution_date->format('Y-m-d')) }}"
+                            class="input input-bordered @error('distribution_date') input-error @enderror">
                         @error('distribution_date')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
                     <label class="form-control mb-6">
                         <div class="label"><span class="label-text">Deskripsi Menu <span class="text-error">*</span></span></div>
                         <textarea name="menu_description" rows="3"
-                                  class="textarea textarea-bordered @error('menu_description') textarea-error @enderror">{{ old('menu_description', $distribution->menu_description) }}</textarea>
+                                class="textarea textarea-bordered @error('menu_description') textarea-error @enderror">{{ old('menu_description', $distribution->menu_description) }}</textarea>
                         @error('menu_description')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
