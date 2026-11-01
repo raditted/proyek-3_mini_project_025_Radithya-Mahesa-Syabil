@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportForwardingController;
 use App\Http\Controllers\ReportReviewController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\RecapController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -21,8 +22,8 @@ Route::middleware('auth')->group(function () {
         return redirect()->route(
             match (auth()->user()->role) {
                 \App\Enums\UserRole::Koordinator => 'schools.index',
-                \App\Enums\UserRole::Pemantau    => 'review.reports.index',
-                default                          => 'reports.index',
+                \App\Enums\UserRole::Pemantau => 'review.reports.index',
+                default => 'reports.index',
             }
         );
     });
@@ -60,5 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/schools/{school}/distributions', [DistributionController::class, 'bySchool'])
         ->name('schools.distributions');
 
-    Route::get('/recap', fn() => 'Halaman rekap (Fase 13)')->name('recap.index');
+    Route::middleware('role:pemantau,koordinator')->group(function () {
+        Route::get('/recap', [\App\Http\Controllers\RecapController::class, 'index'])->name('recap.index');
+    });
 });
