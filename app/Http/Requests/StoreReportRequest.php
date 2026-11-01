@@ -12,6 +12,7 @@ class StoreReportRequest extends FormRequest
         return $this->user()->isPelapor();
     }
 
+    // ac-03: validation - data laporan tidak valid ditolak dan tidak tersimpan
     public function rules(): array
     {
         return [
@@ -20,6 +21,7 @@ class StoreReportRequest extends FormRequest
             'incident_at'     => ['required', 'date', 'before_or_equal:now'],
             'description'     => ['required', 'string', 'min:20', 'max:2000'],
             'affected_count'  => ['nullable', 'integer', 'min:0'],
+            // ac-04: evidence - file valid (jpg, png, pdf maks 2 mb) dapat diunggah, file tidak valid ditolak
             'evidence'        => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ];
     }
@@ -35,6 +37,7 @@ class StoreReportRequest extends FormRequest
         ];
     }
 
+    // br-02: distribusi yang dipilih harus milik sekolah yang dipilih, server wajib memeriksa ini
     private function validateDistributionBelongsToSchool(Validator $validator): void
     {
         if ($this->filled(['school_id', 'distribution_id'])) {
@@ -51,6 +54,7 @@ class StoreReportRequest extends FormRequest
         }
     }
 
+    // br-04: incident_at tidak boleh di masa depan dan tidak boleh lebih awal dari distribution_date
     private function validateIncidentAfterDistribution(Validator $validator): void
     {
         if ($this->filled(['distribution_id', 'incident_at'])) {
@@ -64,6 +68,7 @@ class StoreReportRequest extends FormRequest
         }
     }
 
+    // br-05: satu pelapor hanya dapat membuat satu laporan untuk satu distribusi
     private function validateNoDuplicateReport(Validator $validator): void
     {
         if ($this->filled('distribution_id')) {

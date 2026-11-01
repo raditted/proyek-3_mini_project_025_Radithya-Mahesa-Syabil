@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+// ac-12: pencatatan perubahan penting - mendaftarkan observer untuk memantau perubahan status laporan
 #[ObservedBy(ReportObserver::class)]
 class Report extends Model
 {

@@ -19,6 +19,7 @@
             </div>
         @endif
 
+        {{-- ac-01: formulir login untuk autentikasi pengguna valid --}}
         <form method="POST" action="{{ route('login') }}" class="flex flex-col">
             @csrf
 

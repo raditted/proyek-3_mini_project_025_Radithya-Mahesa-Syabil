@@ -10,6 +10,7 @@ class ReportPolicy
 {
     /**
      * pemilik laporan, pemantau, dan koordinator dibuat boleh melihat detail laporan.
+     * ac-05: ownership & privacy - pelapor tidak dapat melihat laporan pengguna lain (akses ditolak 403)
      */
     public function view(User $user, Report $report): bool
     {
@@ -19,8 +20,8 @@ class ReportPolicy
     }
 
     /**
-     * sistem dibuat hanya pemilik laporan yang boleh mengedit.
-     * laporan cuma bisa diedit saat status nya dikirim atau perlu_dilengkapi
+     * br-01: pelapor hanya dapat mengubah laporan miliknya saat status dikirim atau perlu_dilengkapi
+     * ac-05: ownership & privacy - pelapor tidak dapat mengubah laporan pengguna lain (akses ditolak 403)
      */
     public function update(User $user, Report $report): bool
     {
@@ -29,7 +30,7 @@ class ReportPolicy
     }
 
     /**
-     * hanya si pemantau yang boleh meninjau laporannya
+     * ac-07: authorization - hanya pemantau yang berwenang meninjau laporan
      */
     public function review(User $user, Report $report): bool
     {
@@ -37,7 +38,7 @@ class ReportPolicy
     }
 
     /**
-     * hanya Koordinator yang boleh mencatat penerusan
+     * ac-07: authorization - hanya koordinator yang berwenang mencatat penerusan
      */
     public function forward(User $user, Report $report): bool
     {
@@ -45,7 +46,7 @@ class ReportPolicy
     }
 
     /**
-     * hanya pemilik, pemantau, dan koordinator yang boleh mengunduh bukti.
+     * ac-04 & ac-05: unduh bukti privat - hanya pemilik, pemantau, dan koordinator yang diizinkan
      */
     public function downloadEvidence(User $user, Report $report): bool
     {

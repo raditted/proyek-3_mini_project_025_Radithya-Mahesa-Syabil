@@ -4,7 +4,7 @@
         <a href="{{ route('schools.create') }}" class="btn btn-soft btn-primary btn-sm sm:btn-md">+ Tambah Sekolah</a>
     </div>
 
-    {{-- filter --}}
+    {{-- ac-10: filter pencarian nama sekolah --}}
     <form method="GET" class="flex flex-wrap gap-2 mb-4">
         <input type="text" name="q" value="{{ request('q') }}"
             placeholder="Cari nama sekolah..."
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    {{-- pagination --}}
+    {{-- ac-11: pagination mempertahankan parameter pencarian --}}
     <div class="mt-4">
         {{ $schools->links() }}
     </div>

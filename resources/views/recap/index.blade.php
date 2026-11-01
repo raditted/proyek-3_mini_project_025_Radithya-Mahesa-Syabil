@@ -4,7 +4,7 @@
         <p class="text-sm text-base-content/60">Ringkasan kondisi laporan keamanan makanan MBG</p>
     </div>
 
-    {{-- filter --}}
+    {{-- ac-13: filter halaman rekap (sekolah dan status) --}}
     <form method="GET" class="card bg-base-100 shadow-sm p-4 mb-6">
         <div class="flex flex-col sm:flex-row flex-wrap gap-3 items-stretch sm:items-end">
             <div class="form-control">
@@ -40,7 +40,7 @@
         </div>
     </form>
 
-    {{-- ringkasan--}}
+    {{-- ac-13: minimal tiga informasi ringkasan (total laporan, masih diproses, selesai) --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div class="stat bg-base-100 rounded-box shadow">
             <div class="stat-title">Total Laporan</div>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    {{-- tabel rekap per sekolah --}}
+    {{-- ac-13: tabel rekap per sekolah berdasarkan data aktual --}}
     <div class="card bg-base-100 shadow">
         <div class="card-body p-4 sm:p-6">
             <h2 class="card-title text-base mb-4">Rekap per Sekolah</h2>

@@ -11,6 +11,8 @@ use Illuminate\View\View;
 
 class SchoolController extends Controller
 {
+    // ac-10: search/filter - pencarian nama sekolah
+    // ac-11: pagination - mempertahankan filter saat navigasi halaman dengan withquerystring()
     public function index(Request $request): View
     {
         $schools = School::query()

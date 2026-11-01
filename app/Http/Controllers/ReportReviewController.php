@@ -17,6 +17,8 @@ class ReportReviewController extends Controller
         protected ReportWorkflowService $workflowService
     ) {}
 
+    // ac-10: search/filter - pencarian deskripsi dan filter status, sekolah, atau distribusi
+    // ac-11: pagination - perpindahan halaman mempertahankan filter aktif dengan withquerystring()
     public function index(Request $request): View
     {
         $schools = School::orderBy('name')->get();
@@ -56,6 +58,8 @@ class ReportReviewController extends Controller
         return view('review.index', compact('reports', 'schools', 'statuses', 'selectedDistribution'));
     }
 
+    // ac-06: proses laporan - transisi status dari dikirim menjadi dalam_peninjauan
+    // ac-07: authorization - otorisasi policy review hanya mengizinkan pemantau komunitas
     public function startReview(Report $report): RedirectResponse
     {
         $this->authorize('review', $report);
@@ -69,6 +73,7 @@ class ReportReviewController extends Controller
         return back()->with('success', 'Laporan sekarang berstatus Dalam Peninjauan.');
     }
 
+    // ac-06: proses laporan - transisi status ke perlu_dilengkapi dengan catatan pemantau
     public function requestCompletion(Request $request, Report $report): RedirectResponse
     {
         $this->authorize('review', $report);
@@ -89,6 +94,7 @@ class ReportReviewController extends Controller
         return back()->with('success', 'Permintaan pelengkapan data telah dikirimkan ke pelapor.');
     }
 
+    // ac-06: proses laporan - transisi status ke ditandai_untuk_diteruskan dengan rekomendasi pemantau
     public function markForward(Request $request, Report $report): RedirectResponse
     {
         $this->authorize('review', $report);
@@ -109,6 +115,7 @@ class ReportReviewController extends Controller
         return back()->with('success', 'Laporan berhasil ditandai untuk diteruskan ke pihak terkait.');
     }
 
+    // ac-06: proses laporan - pemantau menutup laporan dari status dalam_peninjauan
     public function close(Request $request, Report $report): RedirectResponse
     {
         $this->authorize('review', $report);

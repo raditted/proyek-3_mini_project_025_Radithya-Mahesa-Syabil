@@ -14,6 +14,7 @@ class EnsureRole
      *
      * contoh misal di route: middleware('role:koordinator,pemantau')
      */
+    // ac-07: authorization - pengguna berwenang berhasil, pengguna tanpa kewenangan ditolak (403)
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         $userRole = $request->user()?->role;

@@ -7,7 +7,7 @@
                 <form class="flex flex-col" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
                     @csrf
 
-                    {{-- sekolah --}}
+                    {{-- ac-02: pilihan sekolah --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Sekolah <span class="text-error">*</span></span></div>
                         <select id="school_id" name="school_id"
@@ -22,7 +22,7 @@
                         @error('school_id')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    {{-- distribusi (lewat proses fetch) --}}
+                    {{-- ac-02 & ac-09: pilihan distribusi makanan via fetch tanpa reload --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Distribusi Makanan <span class="text-error">*</span></span></div>
                         <select id="distribution_id" name="distribution_id"
@@ -33,7 +33,7 @@
                         @error('distribution_id')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    {{-- waktu kejadian --}}
+                    {{-- ac-03 & br-04: input waktu kejadian --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Waktu Kejadian <span class="text-error">*</span></span></div>
                         <input type="datetime-local" name="incident_at"
@@ -43,7 +43,7 @@
                         @error('incident_at')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    {{-- uraian kejadian --}}
+                    {{-- ac-03: uraian kejadian minimal 20 karakter --}}
                     <label class="form-control mb-4">
                         <div class="label">
                             <span class="label-text">Uraian Kejadian <span class="text-error">*</span></span>
@@ -55,7 +55,7 @@
                         @error('description')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    {{-- jumlah terdampak --}}
+                    {{-- ac-03: jumlah terdampak --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Perkiraan Jumlah Terdampak</span></div>
                         <input type="number" name="affected_count" min="0"
@@ -65,7 +65,7 @@
                         @error('affected_count')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    {{-- upload bukti --}}
+                    {{-- ac-04: upload bukti (jpg, png, atau pdf maks 2 mb) --}}
                     <label class="form-control mb-6">
                         <div class="label">
                             <span class="label-text">Bukti Pendukung</span>

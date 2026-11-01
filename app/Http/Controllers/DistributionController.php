@@ -13,6 +13,8 @@ use Illuminate\View\View;
 
 class DistributionController extends Controller
 {
+    // ac-10: search/filter - filter sekolah dan pencarian menu distribusi
+    // ac-11: pagination - mempertahankan filter saat navigasi halaman dengan withquerystring()
     public function index(Request $request): View
     {
         $schools = School::orderBy('name')->get();
@@ -77,8 +79,7 @@ class DistributionController extends Controller
     }
 
     /**
-     * endpoint JSON buat fetch distribusi per sekolah (nanti).
-     * dipakainya oleh form laporan saat memilih sekolah.
+     * ac-09: asynchronous interaction - endpoint json untuk fetch distribusi makanan per sekolah tanpa full page reload
      */
     public function bySchool(School $school): JsonResponse
     {

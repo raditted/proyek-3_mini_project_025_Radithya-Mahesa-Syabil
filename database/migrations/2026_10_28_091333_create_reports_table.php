@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('review_note')->nullable();
             $table->timestamps();
 
-            // business rule satu pelapor hanya boleh satu laporan per distribusi saja
+            // br-05: satu pelapor hanya dapat membuat satu laporan untuk satu distribusi
             $table->unique(['user_id', 'distribution_id']);
         });
     }

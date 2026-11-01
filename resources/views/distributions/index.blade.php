@@ -4,7 +4,7 @@
         <a href="{{ route('distributions.create') }}" class="btn btn-soft btn-primary btn-sm sm:btn-md">+ Tambah Distribusi</a>
     </div>
 
-    {{-- Filter --}}
+    {{-- ac-10: filter sekolah dan pencarian menu distribusi --}}
     <form method="GET" class="flex flex-wrap gap-2 mb-4">
         <select name="school_id" class="select select-bordered select-sm w-full sm:w-auto">
             <option value="">Semua Sekolah</option>
@@ -23,7 +23,7 @@
         @endif
     </form>
 
-    {{-- Tabel --}}
+    {{-- tabel daftar distribusi --}}
     <div class="card bg-base-100 shadow">
         <div class="card-body p-0 overflow-x-auto">
             <table class="table table-zebra w-full text-sm">
@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    {{-- Pagination --}}
+    {{-- ac-11: pagination mempertahankan filter aktif --}}
     <div class="mt-4">
         {{ $distributions->links() }}
     </div>

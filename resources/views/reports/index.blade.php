@@ -4,7 +4,7 @@
         <a href="{{ route('reports.create') }}" class="btn btn-soft btn-primary btn-sm sm:btn-md">+ Buat Laporan</a>
     </div>
 
-    {{-- filter status --}}
+    {{-- ac-10: filter status laporan --}}
     <form method="GET" class="flex flex-wrap gap-2 mb-4">
         <select name="status" class="select select-bordered select-sm w-full sm:w-auto">
             <option value="">Semua Status</option>
@@ -54,6 +54,7 @@
                             </td>
                             <td class="flex gap-2">
                                 <a href="{{ route('reports.show', $report) }}" class="btn btn-soft btn-sm btn-info">Lihat</a>
+                                {{-- br-01: hanya pemilik yang dapat mengubah laporan saat status dikirim atau perlu_dilengkapi --}}
                                 @can('update', $report)
                                     <a href="{{ route('reports.edit', $report) }}" class="btn btn-soft btn-sm btn-accent">Edit</a>
                                 @endcan
@@ -71,5 +72,6 @@
         </div>
     </div>
 
+    {{-- ac-11: pagination dengan mempertahankan query string filter --}}
     <div class="mt-4">{{ $reports->links() }}</div>
 </x-layouts.app>

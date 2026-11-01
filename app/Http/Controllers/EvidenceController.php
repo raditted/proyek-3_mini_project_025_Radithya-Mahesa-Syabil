@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EvidenceController extends Controller
 {
+    // ac-04 & ac-05: unduh berkas bukti privat, pelapor lain ditolak 403
     public function show(Report $report): Response
     {
         $this->authorize('downloadEvidence', $report);

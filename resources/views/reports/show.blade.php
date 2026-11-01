@@ -3,6 +3,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <h1 class="text-2xl font-bold">Detail Laporan #{{ $report->id }}</h1>
             <div class="flex gap-2">
+                {{-- br-01: pelapor hanya dapat mengubah laporan miliknya saat status dikirim atau perlu_dilengkapi --}}
                 @can('update', $report)
                     <a href="{{ route('reports.edit', $report) }}" class="btn btn-soft btn-sm btn-accent">Edit</a>
                 @endcan
@@ -34,13 +35,13 @@
             </div>
         @endif
 
-        {{-- note: action untuk pemantau --}}
+        {{-- ac-06 & ac-07: panel peninjauan wewenang pemantau komunitas --}}
         @if(auth()->user()->isPemantau())
             <div class="card bg-base-100 shadow border border-primary/20 mb-6">
                 <div class="card-body p-4 sm:p-6">
                     <h2 class="card-title text-base text-primary">Panel Peninjauan (Pemantau Komunitas)</h2>
 
-                    {{-- Transisi ketika dikirim -> dalam_peninjauan --}}
+                    {{-- ac-06: transisi status dari dikirim ke dalam_peninjauan --}}
                     @if($report->status === \App\Enums\ReportStatus::Dikirim)
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <p class="text-sm">Laporan baru masuk dan belum ditinjau.</p>
@@ -51,13 +52,13 @@
                         </div>
                     @endif
 
-                    {{-- transisi dari dalam_peninjauan --}}
+                    {{-- ac-06: transisi status dari dalam_peninjauan --}}
                     @if($report->status === \App\Enums\ReportStatus::DalamPeninjauan)
                         <div class="space-y-4">
                             <p class="text-sm text-base-content/70">Laporan sedang dalam tahap peninjauan. Pilih salah satu tindakan tindak lanjut berikut:</p>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {{-- Aksi: Minta Pelengkapan --}}
+                                {{-- ac-06: aksi minta pelengkapan data --}}
                                 <div class="rounded-lg p-3 bg-base-200/50">
                                     <h3 class="font-bold text-sm text-default mb-2">1. Minta Pelengkapan Data</h3>
                                     <form method="POST" action="{{ route('review.reports.requestCompletion', $report) }}">
@@ -69,7 +70,7 @@
                                     </form>
                                 </div>
 
-                                {{-- aksi untuk menandai untuk diteruskan --}}
+                                {{-- ac-06: aksi menandai untuk diteruskan --}}
                                 <div class="rounded-lg p-3 bg-base-200/50">
                                     <h3 class="font-bold text-sm text-default mb-2">2. Tandai untuk Diteruskan</h3>
                                     <form method="POST" action="{{ route('review.reports.markForward', $report) }}">
@@ -82,7 +83,7 @@
                                 </div>
                             </div>
 
-                            {{-- aksi untuk menutup Laporan --}}
+                            {{-- ac-06: aksi menutup laporan dari dalam_peninjauan --}}
                             <div class="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-base-200">
                                 <span class="text-xs text-base-content/60">Jika laporan sudah selesai ditinjau tanpa perlu tindak lanjut:</span>
                                 <form method="POST" action="{{ route('review.reports.close', $report) }}"
@@ -101,13 +102,13 @@
             </div>
         @endif
         
-        {{-- panel aksi untuk penerrusan khusus role koordinator --}}
+        {{-- ac-07 & ac-08: panel wewenang koordinator untuk mencatat penerusan informasi --}}
         @if(auth()->user()->isKoordinator())
             <div class="card bg-base-100 shadow border border-secondary/20 mb-6">
                 <div class="card-body p-4 sm:p-6">
                     <h2 class="card-title text-base text-secondary">Panel Koordinator Komunitas</h2>
 
-                    {{-- aksi mencatat penerusan hanya jika ditandai_untuk_diteruskan --}}
+                    {{-- br-06 & ac-08: aksi mencatat penerusan hanya jika status ditandai_untuk_diteruskan --}}
                     @if($report->status === \App\Enums\ReportStatus::DitandaiUntukDiteruskan)
                         <p class="text-sm text-base-content/70 mb-3">
                             Laporan ini ditandai perlu diteruskan. Catat informasi pihak yang menerima informasi ini.
@@ -150,7 +151,7 @@
                             </button>
                         </form>
 
-                    {{-- aksi tutup laporan hanya jika sudah_diteruskan --}}
+                    {{-- ac-06 & br-03: aksi tutup laporan hanya jika status sudah_diteruskan --}}
                     @elseif($report->status === \App\Enums\ReportStatus::SudahDiteruskan)
                         <p class="text-sm text-base-content/70 mb-3">
                             Informasi sudah diteruskan ke pihak terkait. Laporan dapat ditutup jika tidak ada tindak lanjut lebih lanjut.
@@ -171,7 +172,7 @@
             </div>
         @endif
 
-        {{-- info laporan --}}
+        {{-- ac-02 & ac-05: informasi detail laporan --}}
         <div class="card bg-base-100 shadow mb-4">
             <div class="card-body p-4 sm:p-6">
                 <h2 class="card-title text-base mb-4">Informasi Laporan</h2>
@@ -212,6 +213,7 @@
 
                 <p class="text-sm leading-relaxed">{{ $report->description }}</p>
 
+                {{-- ac-04 & ac-05: unduh berkas bukti pendukung privat --}}
                 @if($report->evidence_path)
                     <div class="mt-4">
                         <a href="{{ route('reports.evidence', $report) }}"
@@ -223,7 +225,7 @@
             </div>
         </div>
 
-        {{-- riwayat penerusan (jika ada) --}}
+        {{-- ac-08: riwayat penerusan informasi --}}
         @if($report->forwardings->isNotEmpty())
             <div class="card bg-base-100 shadow mb-4">
                 <div class="card-body p-4 sm:p-6">

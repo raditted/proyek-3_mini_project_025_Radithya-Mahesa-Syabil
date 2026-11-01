@@ -2,6 +2,7 @@
     <div class="max-w-2xl">
         <h1 class="text-2xl font-bold mb-6">Edit Laporan</h1>
 
+        {{-- ac-06: catatan pemantau bila status perlu_dilengkapi --}}
         @if($report->status === \App\Enums\ReportStatus::PerluDilengkapi && $report->review_note)
             <div class="alert alert-warning mb-4">
                 <div>
@@ -16,6 +17,7 @@
                 <form class="flex flex-col" method="POST" action="{{ route('reports.update', $report) }}" enctype="multipart/form-data">
                     @csrf @method('PUT')
 
+                    {{-- ac-02: pilihan sekolah --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Sekolah <span class="text-error">*</span></span></div>
                         <select id="school_id" name="school_id"
@@ -31,6 +33,7 @@
                         @error('school_id')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
+                    {{-- ac-02 & ac-09: pilihan distribusi makanan via fetch tanpa reload --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Distribusi Makanan <span class="text-error">*</span></span></div>
                         <select id="distribution_id" name="distribution_id"
@@ -41,6 +44,7 @@
                         @error('distribution_id')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
+                    {{-- ac-03 & br-04: input waktu kejadian --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Waktu Kejadian <span class="text-error">*</span></span></div>
                         <input type="datetime-local" name="incident_at"
@@ -50,6 +54,7 @@
                         @error('incident_at')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
+                    {{-- ac-03: uraian kejadian --}}
                     <label class="form-control mb-4">
                         <div class="label">
                             <span class="label-text">Uraian Kejadian <span class="text-error">*</span></span>
@@ -60,6 +65,7 @@
                         @error('description')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
+                    {{-- ac-03: jumlah terdampak --}}
                     <label class="form-control mb-4">
                         <div class="label"><span class="label-text">Perkiraan Jumlah Terdampak</span></div>
                         <input type="number" name="affected_count" min="0"
@@ -68,6 +74,7 @@
                         @error('affected_count')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
+                    {{-- ac-04: upload berkas bukti pendukung baru --}}
                     <label class="form-control mb-6">
                         <div class="label">
                             <span class="label-text">Bukti Pendukung</span>
@@ -86,6 +93,7 @@
                         @error('evidence')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
+                    {{-- br-01: simpan perubahan laporan miliknya --}}
                     <div class="flex flex-col sm:flex-row gap-2">
                         <button type="submit" class="btn btn-soft btn-primary w-full sm:w-auto">Simpan Perubahan</button>
                         <a href="{{ route('reports.show', $report) }}" class="btn btn-ghost w-full sm:w-auto text-center">Batal</a>

@@ -8,7 +8,8 @@ use App\Models\ReportStatusLog;
 class ReportObserver
 {
     /**
-     *  observer ini mencatat status awal saat laporan baru dibuat.
+     * observer ini mencatat status awal saat laporan baru dibuat.
+     * ac-12: pencatatan perubahan penting - observer mencatat status awal ke report_status_logs tanpa data sensitif
      */
     public function created(Report $report): void
     {
@@ -23,7 +24,7 @@ class ReportObserver
 
     /**
      * catat perubahan status saat laporan di-update.
-     * cuma dicatat jika kolom status benar-benar berubah
+     * ac-12: pencatatan perubahan penting - observer mencatat perubahan status ke report_status_logs
      */
     public function updated(Report $report): void
     {

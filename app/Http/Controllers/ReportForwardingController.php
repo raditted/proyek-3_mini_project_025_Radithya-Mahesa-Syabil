@@ -17,10 +17,13 @@ class ReportForwardingController extends Controller
         protected ReportWorkflowService $workflowService
     ) {}
 
+    // ac-08: business rule - koordinator mencatat penerusan pada kondisi valid, kondisi invalid ditolak
+    // br-06: status sudah_diteruskan hanya sah jika laporan berstatus ditandai_untuk_diteruskan dan data penerusan lengkap
     public function store(StoreForwardingRequest $request, Report $report): RedirectResponse
     {
         $this->authorize('forward', $report);
 
+        // br-06: pemeriksaan kondisi status laporan harus ditandai_untuk_diteruskan
         if ($report->status !== ReportStatus::DitandaiUntukDiteruskan) {
             return back()->with('error', 'Hanya laporan berstatus "Ditandai untuk Diteruskan" yang dapat dicatat penerimaannya. (BR-06)');
         }
@@ -45,6 +48,7 @@ class ReportForwardingController extends Controller
         return back()->with('success', 'Penerusan informasi berhasil dicatat. Status laporan diperbarui.');
     }
 
+    // ac-06 & br-03: alur penutupan laporan oleh koordinator komunitas
     public function close(Request $request, Report $report): RedirectResponse
     {
         $this->authorize('forward', $report);

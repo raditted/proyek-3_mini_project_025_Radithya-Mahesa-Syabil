@@ -11,6 +11,7 @@ class StoreForwardingRequest extends FormRequest
         return $this->user()->isKoordinator();
     }
 
+    // br-06: memastikan data penerusan lengkap (jenis dan nama penerima wajib diisi)
     public function rules(): array
     {
         return [

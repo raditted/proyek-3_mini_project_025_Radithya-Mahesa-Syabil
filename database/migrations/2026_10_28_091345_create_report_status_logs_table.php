@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // ac-12: pencatatan perubahan penting - tabel log status perubahan laporan tanpa data sensitif
         Schema::create('report_status_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('report_id')->constrained()->cascadeOnDelete();

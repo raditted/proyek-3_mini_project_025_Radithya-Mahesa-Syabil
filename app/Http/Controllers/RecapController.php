@@ -15,7 +15,7 @@ class RecapController extends Controller
         $schools  = School::orderBy('name')->get();
         $statuses = ReportStatus::cases();
 
-        // Base query dengan filter
+        // ac-13: rekap sederhana - query filter sekolah dan status
         $baseQuery = Report::query()
             ->when(
                 $request->filled('school_id'),
@@ -28,12 +28,12 @@ class RecapController extends Controller
                 $q->where('status', $request->status)
             );
 
-        // 3 kartu ringkasan
+        // ac-13: rekap sederhana - tiga informasi ringkasan (total laporan, laporan terbuka, laporan ditutup)
         $totalReports  = (clone $baseQuery)->count();
         $openReports   = (clone $baseQuery)->where('status', '!=', ReportStatus::Ditutup->value)->count();
         $closedReports = (clone $baseQuery)->where('status', ReportStatus::Ditutup->value)->count();
 
-        // Tabel rekap per sekolah
+        // ac-13: rekap sederhana - tabel rekap per sekolah
         $schoolRecap = School::query()
             ->withCount([
                 'reports as total_reports' => function ($q) use ($request) {

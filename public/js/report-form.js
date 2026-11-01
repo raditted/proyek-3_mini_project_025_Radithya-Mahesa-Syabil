@@ -9,6 +9,7 @@ if (schoolSelect && distributionSelect) {
     }
 }
 
+// ac-09: asynchronous interaction - mengambil daftar distribusi relevan berdasarkan sekolah via fetch() tanpa reload
 async function loadDistributions() {
     const schoolId = schoolSelect.value;
 

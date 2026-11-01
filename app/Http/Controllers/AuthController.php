@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
+    // ac-01: authentication - pengguna dengan akun valid dapat login dan logout, guest ditolak pada protected function
     public function showLogin(): View|RedirectResponse
     {
         if (Auth::check()) {

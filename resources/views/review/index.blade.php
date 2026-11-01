@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    {{-- banner jika sedang memfilter laporan distribusi yang sama --}}
+    {{-- ac-10: banner filter distribusi yang sama --}}
     @if($selectedDistribution)
         <div class="alert alert-info mb-4 flex flex-col sm:flex-row justify-between gap-2">
             <div>
@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    {{-- filter bar --}}
+    {{-- ac-10: filter status, sekolah, dan pencarian kata kunci --}}
     <form method="GET" class="card bg-base-100 shadow-sm p-4 mb-4">
         <div class="flex flex-col sm:flex-row flex-wrap gap-3 items-stretch sm:items-end">
             <div class="form-control">
@@ -60,7 +60,7 @@
         </div>
     </form>
 
-    {{-- tabel laporan --}}
+    {{-- ac-06 & ac-07: tabel daftar peninjauan laporan untuk pemantau dan koordinator --}}
     <div class="card bg-base-100 shadow">
         <div class="card-body p-0 overflow-x-auto">
             <table class="table table-zebra w-full text-sm">
@@ -85,7 +85,7 @@
                                 <div class="text-xs text-base-content/60">
                                     {{ $report->distribution->distribution_date->format('d M Y') }} - {{ $report->distribution->menu_description }}
                                 </div>
-                                {{-- Link laporan lain pada distribusi yang sama --}}
+                                {{-- ac-10: tautan filter laporan lain pada distribusi yang sama --}}
                                 <a href="{{ route('review.reports.index', ['distribution_id' => $report->distribution_id]) }}"
                                     class="link link-primary text-xs mt-1 inline-block">
                                     Laporan lain di distribusi ini
@@ -125,6 +125,7 @@
         </div>
     </div>
 
+    {{-- ac-11: pagination mempertahankan filter aktif --}}
     <div class="mt-4">
         {{ $reports->links() }}
     </div>
