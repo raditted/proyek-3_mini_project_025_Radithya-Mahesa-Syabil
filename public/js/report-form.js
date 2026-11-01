@@ -40,7 +40,7 @@ async function loadDistributions() {
 
         items.forEach((item) => {
             const option    = new Option(
-                `${item.distribution_date} — ${item.menu_description}`,
+                `${item.distribution_date} - ${item.menu_description}`,
                 item.id,
                 false,
                 String(item.id) === String(selected)
