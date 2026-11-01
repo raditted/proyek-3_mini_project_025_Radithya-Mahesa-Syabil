@@ -117,9 +117,12 @@ Buka `http://localhost:8000` di browser.
 | Pelapor 1   | suki@gmail.com        | password |
 | Pelapor 2   | panikga@gmail.com     | password |
 
-## Tag Versi Peer Testing
+## Versi Peer Testing
+
+Aplikasi ini disiapkan untuk sesi pengujian pada versi **`v1.0-peer-test`**.
+
+Jika Anda mengkloning repositori ini dan ingin memastikan berada di versi pengujian:
 
 ```bash
-git tag v1.0-peer-test
-git push origin main --tags
+git checkout v1.0-peer-test
 ```
