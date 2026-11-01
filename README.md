@@ -23,7 +23,9 @@ Mini Project Proyek 3, D3 Teknik Informatika
 ### 1. Clone repository
 
 ```bash
-git clone <URL_REPO> && cd Mini_Proyek_MBG
+git clone https://github.com/raditted/proyek-3_mini_project_025_Radithya-Mahesa-Syabil.git
+
+cd proyek-3_mini_project_025_Radithya-Mahesa-Syabil
 ```
 
 ### 2. Install dependencies
@@ -35,9 +37,14 @@ npm install
 
 ### 3. Copy file environment
 
-```bash
-cp .env.example .env
-```
+- **Linux / macOS / Git Bash:**
+    ```bash
+    cp .env.example .env
+    ```
+- **Windows (Command Prompt / PowerShell):**
+    ```cmd
+    copy .env.example .env
+    ```
 
 ### 4. Generate app key
 
@@ -47,11 +54,14 @@ php artisan key:generate
 
 ### 5. Jalankan MySQL dan phpMyAdmin
 
-- **Jika Menggunakan Docker**
+- **Opsi A: Jika Menggunakan Docker**
+
     ```bash
     docker compose up -d
     ```
+
     Konfigurasi `.env`:
+
     ```env
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
@@ -60,11 +70,13 @@ php artisan key:generate
     DB_USERNAME=mbg_user
     DB_PASSWORD=mbg_password
     ```
+
     (phpMyAdmin otomatis tersedia di `http://localhost:8080`)
-- **Jika Menggunaakan XAMPP / Laragon / MySQL Lokal**
-    - Buka XAMPP/Laragon, nyalakan service **MySQL**.
-    - Buat database baru bernama `mbg_db`.
-    - Konfigurasi `.env`:
+
+- **Opsi B: Jika Menggunakan XAMPP / Laragon / MySQL Lokal Windows**
+    1. Buka XAMPP atau Laragon, nyalakan service **MySQL**.
+    2. Buat database baru bernama `mbg_db` (bisa lewat phpMyAdmin bawaan di `http://localhost/phpmyadmin` atau Laragon database manager).
+    3. Konfigurasi `.env`:
         ```env
         DB_CONNECTION=mysql
         DB_HOST=127.0.0.1
@@ -82,11 +94,17 @@ php artisan migrate:fresh --seed
 
 ### 7. Jalankan aplikasi
 
-```bash
-php artisan serve
-npm run dev
+Jalankan kedua perintah berikut pada **dua terminal terpisah**:
 
-```
+- **Terminal 1 (Server Laravel):**
+    ```bash
+    php artisan serve
+    ```
+- **Terminal 2 (Asset Bundler):**
+    ```bash
+    npm run dev
+    ```
+    _(Atau jika tidak ingin membuka terminal kedua, cukup jalankan `npm run build` sekali)._
 
 Buka `http://localhost:8000` di browser.
 
