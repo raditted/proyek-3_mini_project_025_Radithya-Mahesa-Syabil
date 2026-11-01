@@ -3,8 +3,8 @@
         <h1 class="text-2xl font-bold mb-6">Edit Sekolah</h1>
 
         <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <form method="POST" action="{{ route('schools.update', $school) }}">
+            <div class="card-body p-4 sm:p-6">
+                <form class="flex flex-col" method="POST" action="{{ route('schools.update', $school) }}">
                     @csrf @method('PUT')
 
                     <label class="form-control mb-4">
@@ -21,9 +21,9 @@
                         @error('address')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    <div class="flex gap-2">
-                        <button type="submit" class="btn btn-primary">Perbarui</button>
-                        <a href="{{ route('schools.index') }}" class="btn btn-ghost">Batal</a>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <button type="submit" class="btn btn-primary btn-soft w-full sm:w-auto">Perbarui</button>
+                        <a href="{{ route('schools.index') }}" class="btn btn-ghost w-full sm:w-auto text-center">Batal</a>
                     </div>
                 </form>
             </div>

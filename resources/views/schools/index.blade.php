@@ -1,15 +1,15 @@
 <x-layouts.app title="Daftar Sekolah">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <h1 class="text-2xl font-bold">Daftar Sekolah</h1>
-        <a href="{{ route('schools.create') }}" class="btn btn-primary btn-sm">+ Tambah Sekolah</a>
+        <a href="{{ route('schools.create') }}" class="btn btn-soft btn-primary btn-sm sm:btn-md">+ Tambah Sekolah</a>
     </div>
 
     {{-- filter --}}
-    <form method="GET" class="flex gap-2 mb-4">
+    <form method="GET" class="flex flex-wrap gap-2 mb-4">
         <input type="text" name="q" value="{{ request('q') }}"
             placeholder="Cari nama sekolah..."
-            class="input input-bordered input-sm w-full max-w-xs">
-        <button class="btn btn-sm">Cari</button>
+            class="input input-bordered input-sm w-full sm:max-w-xs">
+        <button class="btn btn-primary btn-soft btn-sm">Cari</button>
         @if(request('q'))
             <a href="{{ route('schools.index') }}" class="btn btn-sm btn-ghost">Reset</a>
         @endif
@@ -17,8 +17,8 @@
 
     {{-- tabel --}}
     <div class="card bg-base-100 shadow">
-        <div class="card-body p-0">
-            <table class="table table-zebra">
+        <div class="card-body p-0 overflow-x-auto">
+            <table class="table table-zebra w-full text-sm">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -35,18 +35,18 @@
                             <td>{{ $school->address ?? '-' }}</td>
                             <td class="flex gap-2">
                                 <a href="{{ route('schools.edit', $school) }}"
-                                    class="btn btn-xs btn-warning">Edit</a>
+                                    class="btn btn-soft btn-sm btn-warning">Edit</a>
 
                                 <form method="POST" action="{{ route('schools.destroy', $school) }}"
                                     onsubmit="return confirm('Yakin hapus sekolah ini?')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-xs btn-error">Hapus</button>
+                                    <button class="btn btn-soft btn-sm btn-error">Hapus</button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-base-content/50">
+                            <td colspan="4" class="text-center text-base-content/50 py-6">
                                 Belum ada data sekolah.
                             </td>
                         </tr>

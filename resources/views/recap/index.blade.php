@@ -6,10 +6,10 @@
 
     {{-- filter --}}
     <form method="GET" class="card bg-base-100 shadow-sm p-4 mb-6">
-        <div class="flex flex-wrap gap-3 items-end">
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3 items-stretch sm:items-end">
             <div class="form-control">
                 <span class="label-text text-xs mb-1">Sekolah</span>
-                <select name="school_id" class="select select-bordered select-sm">
+                <select name="school_id" class="select select-bordered select-sm w-full sm:w-auto">
                     <option value="">Semua Sekolah</option>
                     @foreach($schools as $school)
                         <option value="{{ $school->id }}" {{ request('school_id') == $school->id ? 'selected' : '' }}>
@@ -21,7 +21,7 @@
 
             <div class="form-control">
                 <span class="label-text text-xs mb-1">Status</span>
-                <select name="status" class="select select-bordered select-sm">
+                <select name="status" class="select select-bordered select-sm w-full sm:w-auto">
                     <option value="">Semua Status</option>
                     @foreach($statuses as $status)
                         <option value="{{ $status->value }}" {{ request('status') === $status->value ? 'selected' : '' }}>
@@ -31,8 +31,8 @@
                 </select>
             </div>
 
-            <div class="flex gap-2">
-                <button type="submit" class="btn btn-sm btn-primary">Terapkan Filter</button>
+            <div class="flex gap-2 mt-2 sm:mt-0">
+                <button type="submit" class="btn btn-soft btn-sm btn-primary">Terapkan Filter</button>
                 @if(request()->hasAny(['school_id', 'status']))
                     <a href="{{ route('recap.index') }}" class="btn btn-sm btn-ghost">Reset</a>
                 @endif
@@ -44,7 +44,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div class="stat bg-base-100 rounded-box shadow">
             <div class="stat-title">Total Laporan</div>
-            <div class="stat-value text-primary">{{ $totalReports }}</div>
+            <div class="stat-value text-info">{{ $totalReports }}</div>
             <div class="stat-desc">Semua laporan yang masuk</div>
         </div>
 
@@ -63,10 +63,10 @@
 
     {{-- tabel rekap per sekolah --}}
     <div class="card bg-base-100 shadow">
-        <div class="card-body">
+        <div class="card-body p-4 sm:p-6">
             <h2 class="card-title text-base mb-4">Rekap per Sekolah</h2>
             <div class="overflow-x-auto">
-                <table class="table table-zebra">
+                <table class="table table-zebra w-full text-sm">
                     <thead>
                         <tr>
                             <th>Sekolah</th>

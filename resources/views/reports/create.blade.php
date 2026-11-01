@@ -3,8 +3,8 @@
         <h1 class="text-2xl font-bold mb-6">Buat Laporan Kejadian</h1>
 
         <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <form method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
+            <div class="card-body p-4 sm:p-6">
+                <form class="flex flex-col" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
                     @csrf
 
                     {{-- sekolah --}}
@@ -80,9 +80,9 @@
                         <span>Status laporan ini bukan penetapan resmi atas penyebab kejadian.</span>
                     </div>
 
-                    <div class="flex gap-2">
-                        <button type="submit" class="btn btn-primary">Kirim Laporan</button>
-                        <a href="{{ route('reports.index') }}" class="btn btn-ghost">Batal</a>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <button type="submit" class="btn btn-primary w-full sm:w-auto">Kirim Laporan</button>
+                        <a href="{{ route('reports.index') }}" class="btn btn-ghost w-full sm:w-auto text-center">Batal</a>
                     </div>
                 </form>
             </div>

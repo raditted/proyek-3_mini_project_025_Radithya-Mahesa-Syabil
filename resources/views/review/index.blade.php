@@ -1,5 +1,5 @@
 <x-layouts.app title="Tinjau Laporan">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
             <h1 class="text-2xl font-bold">Daftar Laporan Masuk</h1>
             <p class="text-sm text-base-content/60">Tinjau kelengkapan laporan dan pantau keterkaitan kejadian</p>
@@ -8,21 +8,21 @@
 
     {{-- banner jika sedang memfilter laporan distribusi yang sama --}}
     @if($selectedDistribution)
-        <div class="alert alert-info mb-4 flex justify-between">
+        <div class="alert alert-info mb-4 flex flex-col sm:flex-row justify-between gap-2">
             <div>
                 <p class="font-bold">Menampilkan laporan terkait distribusi yang sama:</p>
                 <p class="text-sm">{{ $selectedDistribution->school->name }} - {{ $selectedDistribution->distribution_date->format('d M Y') }} ({{ $selectedDistribution->menu_description }})</p>
             </div>
-            <a href="{{ route('review.reports.index') }}" class="btn btn-sm btn-ghost">Tampilkan Semua Laporan</a>
+            <a href="{{ route('review.reports.index') }}" class="btn btn-sm btn-ghost w-full sm:w-auto">Tampilkan Semua Laporan</a>
         </div>
     @endif
 
     {{-- filter bar --}}
     <form method="GET" class="card bg-base-100 shadow-sm p-4 mb-4">
-        <div class="flex flex-wrap gap-3 items-end">
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3 items-stretch sm:items-end">
             <div class="form-control">
                 <span class="label-text text-xs mb-1">Sekolah</span>
-                <select name="school_id" class="select select-bordered select-sm">
+                <select name="school_id" class="select select-bordered select-sm w-full sm:w-auto">
                     <option value="">Semua Sekolah</option>
                     @foreach($schools as $school)
                         <option value="{{ $school->id }}" {{ request('school_id') == $school->id ? 'selected' : '' }}>
@@ -34,7 +34,7 @@
 
             <div class="form-control">
                 <span class="label-text text-xs mb-1">Status Laporan</span>
-                <select name="status" class="select select-bordered select-sm">
+                <select name="status" class="select select-bordered select-sm w-full sm:w-auto">
                     <option value="">Semua Status</option>
                     @foreach($statuses as $status)
                         <option value="{{ $status->value }}" {{ request('status') === $status->value ? 'selected' : '' }}>
@@ -44,15 +44,15 @@
                 </select>
             </div>
 
-            <div class="form-control flex-1 min-w-50">
+            <div class="form-control flex-1 min-w-[180px]">
                 <span class="label-text text-xs mb-1">Cari Kata Kunci</span>
                 <input type="text" name="q" value="{{ request('q') }}"
                     placeholder="Cari uraian kejadian..."
                     class="input input-bordered input-sm w-full">
             </div>
 
-            <div class="flex gap-2">
-                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+            <div class="flex gap-2 mt-2 sm:mt-0">
+                <button type="submit" class="btn btn-soft btn-sm btn-primary">Filter</button>
                 @if(request()->hasAny(['school_id', 'status', 'distribution_id', 'q']))
                     <a href="{{ route('review.reports.index') }}" class="btn btn-sm btn-ghost">Reset</a>
                 @endif
@@ -83,7 +83,7 @@
                             <td>
                                 <div class="font-bold">{{ $report->school->name }}</div>
                                 <div class="text-xs text-base-content/60">
-                                    {{ $report->distribution->distribution_date->format('d M Y') }} — {{ $report->distribution->menu_description }}
+                                    {{ $report->distribution->distribution_date->format('d M Y') }} - {{ $report->distribution->menu_description }}
                                 </div>
                                 {{-- Link laporan lain pada distribusi yang sama --}}
                                 <a href="{{ route('review.reports.index', ['distribution_id' => $report->distribution_id]) }}"
@@ -96,7 +96,7 @@
                             </td>
                             <td>{{ $report->affected_count ? $report->affected_count . ' orang' : '-' }}</td>
                             <td>
-                                <span class="badge badge-sm
+                                <span class="badge badge-soft badge-sm
                                     {{ $report->status === \App\Enums\ReportStatus::Dikirim ? 'badge-info' : '' }}
                                     {{ $report->status === \App\Enums\ReportStatus::DalamPeninjauan ? 'badge-warning' : '' }}
                                     {{ $report->status === \App\Enums\ReportStatus::PerluDilengkapi ? 'badge-error' : '' }}

@@ -1,12 +1,12 @@
 <x-layouts.app title="Laporan Saya">
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <h1 class="text-2xl font-bold">Laporan Saya</h1>
-        <a href="{{ route('reports.create') }}" class="btn btn-primary btn-sm">+ Buat Laporan</a>
+        <a href="{{ route('reports.create') }}" class="btn btn-soft btn-primary btn-sm sm:btn-md">+ Buat Laporan</a>
     </div>
 
     {{-- filter status --}}
-    <form method="GET" class="flex gap-2 mb-4">
-        <select name="status" class="select select-bordered select-sm">
+    <form method="GET" class="flex flex-wrap gap-2 mb-4">
+        <select name="status" class="select select-bordered select-sm w-full sm:w-auto">
             <option value="">Semua Status</option>
             @foreach($statuses as $status)
                 <option value="{{ $status->value }}" {{ request('status') === $status->value ? 'selected' : '' }}>
@@ -21,8 +21,8 @@
     </form>
 
     <div class="card bg-base-100 shadow">
-        <div class="card-body p-0">
-            <table class="table table-zebra">
+        <div class="card-body p-0 overflow-x-auto">
+            <table class="table table-zebra w-full text-sm">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -41,7 +41,7 @@
                             <td>{{ $report->distribution->distribution_date->format('d M Y') }}</td>
                             <td>{{ $report->incident_at->format('d M Y H:i') }}</td>
                             <td>
-                                <span class="badge badge-sm
+                                <span class="badge badge-soft badge-md
                                     {{ $report->status === \App\Enums\ReportStatus::Dikirim ? 'badge-info' : '' }}
                                     {{ $report->status === \App\Enums\ReportStatus::DalamPeninjauan ? 'badge-warning' : '' }}
                                     {{ $report->status === \App\Enums\ReportStatus::PerluDilengkapi ? 'badge-error' : '' }}
@@ -53,15 +53,15 @@
                                 </span>
                             </td>
                             <td class="flex gap-2">
-                                <a href="{{ route('reports.show', $report) }}" class="btn btn-xs btn-info">Lihat</a>
+                                <a href="{{ route('reports.show', $report) }}" class="btn btn-soft btn-sm btn-info">Lihat</a>
                                 @can('update', $report)
-                                    <a href="{{ route('reports.edit', $report) }}" class="btn btn-xs btn-warning">Edit</a>
+                                    <a href="{{ route('reports.edit', $report) }}" class="btn btn-soft btn-sm btn-accent">Edit</a>
                                 @endcan
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-base-content/50">
+                            <td colspan="6" class="text-center text-base-content/50 py-6">
                                 Belum ada laporan.
                             </td>
                         </tr>

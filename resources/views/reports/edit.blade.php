@@ -12,8 +12,8 @@
         @endif
 
         <div class="card bg-base-100 shadow">
-            <div class="card-body">
-                <form method="POST" action="{{ route('reports.update', $report) }}" enctype="multipart/form-data">
+            <div class="card-body p-4 sm:p-6">
+                <form class="flex flex-col" method="POST" action="{{ route('reports.update', $report) }}" enctype="multipart/form-data">
                     @csrf @method('PUT')
 
                     <label class="form-control mb-4">
@@ -71,7 +71,7 @@
                     <label class="form-control mb-6">
                         <div class="label">
                             <span class="label-text">Bukti Pendukung</span>
-                            <span class="label-text-alt">JPG, PNG, atau PDF — maks. 2 MB</span>
+                            <span class="label-text-alt">JPG, PNG, atau PDF (Maks. 2 MB)</span>
                         </div>
                         @if($report->evidence_path)
                             <div class="mb-2 flex items-center gap-2">
@@ -86,9 +86,9 @@
                         @error('evidence')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    <div class="flex gap-2">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                        <a href="{{ route('reports.show', $report) }}" class="btn btn-ghost">Batal</a>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <button type="submit" class="btn btn-soft btn-primary w-full sm:w-auto">Simpan Perubahan</button>
+                        <a href="{{ route('reports.show', $report) }}" class="btn btn-ghost w-full sm:w-auto text-center">Batal</a>
                     </div>
                 </form>
             </div>

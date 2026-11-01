@@ -3,7 +3,7 @@
         <h1 class="text-2xl font-bold mb-6">Edit Distribusi</h1>
 
         <div class="card bg-base-100 shadow">
-            <div class="card-body">
+            <div class="card-body p-4 sm:p-6">
                 <form method="POST" action="{{ route('distributions.update', $distribution) }}">
                     @csrf @method('PUT')
 
@@ -36,9 +36,9 @@
                         @error('menu_description')<p class="text-error text-sm mt-1">{{ $message }}</p>@enderror
                     </label>
 
-                    <div class="flex gap-2">
-                        <button type="submit" class="btn btn-primary">Perbarui</button>
-                        <a href="{{ route('distributions.index') }}" class="btn btn-ghost">Batal</a>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <button type="submit" class="btn btn-primary w-full sm:w-auto">Perbarui</button>
+                        <a href="{{ route('distributions.index') }}" class="btn btn-ghost w-full sm:w-auto text-center">Batal</a>
                     </div>
                 </form>
             </div>
